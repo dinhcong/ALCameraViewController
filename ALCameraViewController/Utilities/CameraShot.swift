@@ -21,12 +21,13 @@ internal class CameraShot: NSObject {
         videoConnection.videoOrientation = videoOrientation
         
         stillImageOutput.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: { buffer, error in
-            
-            guard let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer), image = UIImage(data: imageData) else {
-                return
-            }
-            
-            completion(image)
+            if buffer != nil {
+                guard let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer), image = UIImage(data: imageData) else {
+                    return
+                }
+                
+                completion(image)
+            }            
         })
     }
 }
